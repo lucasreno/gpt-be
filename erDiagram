@@ -1,6 +1,6 @@
 erDiagram
     projetos {
-        INT id PK
+        INT id PK AI
         VARCHAR(255) nome
         DOUBLE verba_total
         DATE data_inicio
@@ -8,7 +8,7 @@ erDiagram
     }
     
     etapas {
-        INT id PK
+        INT id PK AI
         INT projeto_id FK
         VARCHAR(255) nome
         DOUBLE verba_alocada
@@ -17,7 +17,7 @@ erDiagram
     }
 
     ordens_pagamento {
-        INT id PK
+        INT id PK AI
         INT projeto_id FK
         INT etapa_id FK
         VARCHAR(255) descricao
@@ -25,7 +25,7 @@ erDiagram
     }
 
     compromissos_pagamento {
-        INT id PK
+        INT id PK AI
         INT ordem_pagamento_id FK
         DATE data_compromisso
         DOUBLE valor_comprometido
