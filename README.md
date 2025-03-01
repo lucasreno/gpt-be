@@ -55,7 +55,7 @@ npm start
 ## Estrutura do Projeto
 
 ```
-/c:/oneway/gpt-be/
+gpt-be/
 │
 ├── config/                        # Configurações do projeto
 ├── controllers/                   # Controladores da API
