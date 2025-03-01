@@ -3,17 +3,17 @@ const path = require('path');
 const { logger } = require('./logger');
 
 /**
- * Read the ER diagram file
- * @returns {Promise<string>} - Content of the ER diagram
+ * Read ER diagram file content
+ * @returns {Promise<string>} - ER diagram content
  */
 const readERDiagram = async () => {
     try {
-        const erDiagramPath = path.join(__dirname, '..', 'erDiagram');
-        const content = await fs.readFile(erDiagramPath, 'utf8');
+        const filePath = path.join(__dirname, '..', 'erDiagram');
+        const content = await fs.readFile(filePath, 'utf8');
         return content;
     } catch (error) {
-        logger.error(`Failed to read ER diagram file: ${error.message}`);
-        throw new Error(`ER diagram file not found or inaccessible: ${error.message}`);
+        logger.error('Error reading ER diagram file:', error);
+        throw new Error('Failed to read ER diagram file');
     }
 };
 

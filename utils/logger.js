@@ -1,28 +1,21 @@
-/**
- * Simple logger utility
- * Note: In a production environment, consider using a proper logging library
- * like winston or pino
- */
-const logger = {
-    info: (message, ...args) => {
-        console.log(`[INFO] ${new Date().toISOString()} - ${message}`, ...args);
-    },
-    
-    warn: (message, ...args) => {
-        console.warn(`[WARN] ${new Date().toISOString()} - ${message}`, ...args);
-    },
-    
-    error: (message, ...args) => {
-        console.error(`[ERROR] ${new Date().toISOString()} - ${message}`, ...args);
-    },
-    
-    debug: (message, ...args) => {
-        if (process.env.NODE_ENV !== 'production') {
-            console.debug(`[DEBUG] ${new Date().toISOString()} - ${message}`, ...args);
-        }
-    }
-};
+const winston = require('winston');
 
-module.exports = {
-    logger
-};
+const logger = winston.createLogger({
+    level: process.env.LOG_LEVEL || 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json()
+    ),
+    transports: [
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.simple()
+            )
+        }),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' })
+    ]
+});
+
+module.exports = { logger };

@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "89be719c-ecf8-4fc4-9b8a-a036572b360c",
+		"name": "GPT Conversation API",
+		"description": "Collection for testing the conversation API with database interactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5216422"
+	},
+	"item": [
+		{
+			"name": "Start Conversation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/conversation/start",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"conversation",
+						"start"
+					]
+				},
+				"description": "Inicia uma nova conversa com o assistente."
+			},
+			"response": [
+				{
+					"name": "Example Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\n  \"conversation\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Olá, como posso ajudar com seus projetos hoje?\"\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": \"USER: Olá! Estou aqui para ajudar com seu gerenciamento de projetos. Posso fornecer informações sobre seus projetos, pagamentos, clientes e muito mais. O que você gostaria de saber hoje?\"\n    }\n  ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Send Message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"message\": \"Mostre todos os projetos ativos\",\n  \"conversation\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Olá, como posso ajudar com seus projetos hoje?\"\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": \"USER: Olá! Estou aqui para ajudar com seu gerenciamento de projetos. Posso fornecer informações sobre seus projetos, pagamentos, clientes e muito mais. O que você gostaria de saber hoje?\"\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/conversation/message",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"conversation",
+						"message"
+					]
+				},
+				"description": "Envia uma mensagem para a conversa existente."
+			},
+			"response": [
+				{
+					"name": "SQL Query Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": \"Mostre todos os projetos ativos\",\n  \"conversation\": []\n}"
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\n  \"conversation\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"Você é um assistente de IA com capacidades de acesso a banco de dados...\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Mostre todos os projetos ativos\"\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": \"SQL: SELECT * FROM projetos WHERE status = 'ativo' ORDER BY data_inicio DESC;\"\n    },\n    {\n      \"role\": \"system\",\n      \"content\": \"Backend: [\\n  {\\n    \\\"id\\\": 1,\\n    \\\"nome\\\": \\\"Redesenho Site Corporativo\\\",\\n    \\\"cliente_id\\\": 2,\\n    \\\"data_inicio\\\": \\\"2023-03-15\\\",\\n    \\\"data_fim_prevista\\\": \\\"2023-06-30\\\",\\n    \\\"valor_total\\\": 45000.00,\\n    \\\"status\\\": \\\"ativo\\\"\\n  },\\n  {\\n    \\\"id\\\": 3,\\n    \\\"nome\\\": \\\"Sistema de Gestão Interna\\\",\\n    \\\"cliente_id\\\": 1,\\n    \\\"data_inicio\\\": \\\"2023-01-10\\\",\\n    \\\"data_fim_prevista\\\": \\\"2023-12-15\\\",\\n    \\\"valor_total\\\": 120000.00,\\n    \\\"status\\\": \\\"ativo\\\"\\n  }\\n]\"\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": \"USER: Encontrei 2 projetos ativos:\\n\\n1. **Redesenho Site Corporativo**\\n   - Cliente ID: 2\\n   - Início: 15/03/2023\\n   - Previsão de término: 30/06/2023\\n   - Valor total: R$ 45.000,00\\n\\n2. **Sistema de Gestão Interna**\\n   - Cliente ID: 1\\n   - Início: 10/01/2023\\n   - Previsão de término: 15/12/2023\\n   - Valor total: R$ 120.000,00\\n\\nVocê gostaria de saber mais detalhes sobre algum desses projetos específicos?\"\n    }\n  ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Continue Conversation with Follow-up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"message\": \"Quem é o cliente do projeto de Redesenho Site Corporativo?\",\n  \"conversation\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Mostre todos os projetos ativos\"\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": \"SQL: SELECT * FROM projetos WHERE status = 'ativo' ORDER BY data_inicio DESC;\"\n    },\n    {\n      \"role\": \"system\",\n      \"content\": \"Backend: [\\n  {\\n    \\\"id\\\": 1,\\n    \\\"nome\\\": \\\"Redesenho Site Corporativo\\\",\\n    \\\"cliente_id\\\": 2,\\n    \\\"data_inicio\\\": \\\"2023-03-15\\\",\\n    \\\"data_fim_prevista\\\": \\\"2023-06-30\\\",\\n    \\\"valor_total\\\": 45000.00,\\n    \\\"status\\\": \\\"ativo\\\"\\n  },\\n  {\\n    \\\"id\\\": 3,\\n    \\\"nome\\\": \\\"Sistema de Gestão Interna\\\",\\n    \\\"cliente_id\\\": 1,\\n    \\\"data_inicio\\\": \\\"2023-01-10\\\",\\n    \\\"data_fim_prevista\\\": \\\"2023-12-15\\\",\\n    \\\"valor_total\\\": 120000.00,\\n    \\\"status\\\": \\\"ativo\\\"\\n  }\\n]\"\n    },\n    {\n      \"role\": \"assistant\",\n      \"content\": \"USER: Encontrei 2 projetos ativos:\\n\\n1. **Redesenho Site Corporativo**\\n   - Cliente ID: 2\\n   - Início: 15/03/2023\\n   - Previsão de término: 30/06/2023\\n   - Valor total: R$ 45.000,00\\n\\n2. **Sistema de Gestão Interna**\\n   - Cliente ID: 1\\n   - Início: 10/01/2023\\n   - Previsão de término: 15/12/2023\\n   - Valor total: R$ 120.000,00\\n\\nVocê gostaria de saber mais detalhes sobre algum desses projetos específicos?\"\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/conversation/message",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"conversation",
+						"message"
+					]
+				},
+				"description": "Envia uma pergunta de acompanhamento na conversa."
+			},
+			"response": []
+		},
+		{
+			"name": "Query Client Payment Status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"message\": \"Qual é o status dos pagamentos do cliente ABC Ltda?\",\n  \"conversation\": []\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/conversation/message",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"conversation",
+						"message"
+					]
+				},
+				"description": "Pergunta sobre status de pagamentos de um cliente específico."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api",
+			"type": "string"
+		}
+	]
+}

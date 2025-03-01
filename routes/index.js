@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-// Import route modules
-// Example: const userRoutes = require('./userRoutes');
+const conversationRoutes = require('./conversationRoutes');
 
 // Define routes
 router.get('/status', (req, res) => {
@@ -10,6 +8,6 @@ router.get('/status', (req, res) => {
 });
 
 // Use route modules
-// Example: router.use('/users', userRoutes);
+router.use('/conversation', conversationRoutes);
 
 module.exports = router;
