@@ -91,7 +91,7 @@ erDiagram
     projetos {
         INT id PK
         VARCHAR(255) nome
-        DECIMAL(10,2) verba_total
+        DOUBLE verba_total
         DATE data_inicio
         DATE data_fim
     }
@@ -100,7 +100,7 @@ erDiagram
         INT id PK
         INT projeto_id FK
         VARCHAR(255) nome
-        DECIMAL(10,2) verba_alocada
+        DOUBLE verba_alocada
         DATE data_inicio
         DATE data_fim
     }
@@ -110,14 +110,14 @@ erDiagram
         INT projeto_id FK
         INT etapa_id FK
         VARCHAR(255) descricao
-        DECIMAL(10,2) valor
+        DOUBLE valor
     }
 
     compromissos_pagamento {
         INT id PK
         INT ordem_pagamento_id FK
         DATE data_compromisso
-        DECIMAL(10,2) valor_comprometido
+        DOUBLE valor_comprometido
         BOOLEAN pago
     }
 
