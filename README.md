@@ -82,6 +82,51 @@ npm start
 - Sistema de logs para monitoramento das operações
 - API RESTful para interação com o sistema
 
+## Exemplo de Diagrama ER
+
+O sistema aceita diagramas ER no formato Mermaid. Abaixo está um exemplo de um diagrama que pode ser processado pelo sistema:
+
+```mermaid
+erDiagram
+    projetos {
+        INT id PK
+        VARCHAR(255) nome
+        DECIMAL(10,2) verba_total
+        DATE data_inicio
+        DATE data_fim
+    }
+    
+    etapas {
+        INT id PK
+        INT projeto_id FK
+        VARCHAR(255) nome
+        DECIMAL(10,2) verba_alocada
+        DATE data_inicio
+        DATE data_fim
+    }
+
+    ordens_pagamento {
+        INT id PK
+        INT projeto_id FK
+        INT etapa_id FK
+        VARCHAR(255) descricao
+        DECIMAL(10,2) valor
+    }
+
+    compromissos_pagamento {
+        INT id PK
+        INT ordem_pagamento_id FK
+        DATE data_compromisso
+        DECIMAL(10,2) valor_comprometido
+        BOOLEAN pago
+    }
+
+    projetos ||--o{ etapas : "1:N"
+    projetos ||--o{ ordens_pagamento : "1:N"
+    etapas ||--o{ ordens_pagamento : "1:N"
+    ordens_pagamento ||--o{ compromissos_pagamento : "1:N"
+```
+
 ## Licença
 
 Este projeto está licenciado sob a [Licença MIT](LICENSE).
